@@ -55,7 +55,7 @@ const Search: React.FC = () => {
             {noImagesFound && <p className="no-images">No images found</p>}
             <div className="images-results">
                 {images.map((imageUrl, index) => (
-                    <img key={index} src={imageUrl} alt={`Image ${index}`} />
+                    <img key={index} src={imageUrl} alt="result" className="result-image" />
                 ))}
             </div>
         </div>
