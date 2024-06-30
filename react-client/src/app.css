@@ -1,0 +1,23 @@
+.search-input {
+    margin-left: 10px;
+    margin-bottom: 20px;
+    margin-top: 12px;
+    outline: none;
+    font-size: 1.50em;
+    padding: 0 10px;
+    line-height: 50px;
+    border: 2px solid black;
+    background: transparent;
+    transition: 0.1s ease;
+    z-index: 1111;
+}
+
+.no-images {
+    margin-left: 12px;
+    font-size: 160%;
+    transition: 0.1s ease;
+}
+
+.images-results {
+    margin-left: 10px;
+}

@@ -1,15 +1,11 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import "./app.css";
 
-export type SearchProps = {
-    onSearch: (value: string) => void
-}
-
-const Search: React.FC<SearchProps> = (props) => {
-    const { onSearch } = props;
+const Search: React.FC = () => {
     const [value, setValue] = useState('Enter search...');
     const [query, setQuery] = useState<string | null>(null);
     const [images, setImages] = useState<string[]>([]);
+    const [noImagesFound, setNoImagesFound] = useState(false);
 
     const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { target } = event;
@@ -18,7 +14,6 @@ const Search: React.FC<SearchProps> = (props) => {
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            onSearch(value);
             setQuery(value);
         }
     };
@@ -31,7 +26,14 @@ const Search: React.FC<SearchProps> = (props) => {
                     const result = await fetch(url);
                     const data = await result.json();
                     const imageUrls = data.hits.map((hit: any) => hit.largeImageURL);
-                    setImages(imageUrls);
+                    const imageLength = imageUrls.length;
+                    if (imageLength === 0){
+                        setNoImagesFound(true);
+                        setImages([]);
+                    } else {
+                        setImages(imageUrls);
+                        setNoImagesFound(false);
+                    }
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
@@ -50,9 +52,10 @@ const Search: React.FC<SearchProps> = (props) => {
                 onChange={searchHandler}
                 onKeyDown={handleKeyDown}
             />
-            <div className="image-results">
-                {images.map((image, index) => (
-                    <img key={index} src={image} alt="result" className="result-image" />
+            {noImagesFound && <p className="no-images">No images found</p>}
+            <div className="images-results">
+                {images.map((imageUrl, index) => (
+                    <img key={index} src={imageUrl} alt={`Image ${index}`} />
                 ))}
             </div>
         </div>
